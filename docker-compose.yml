@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  # ── MongoDB ───────────────────────────────────────────────
+  mongo:
+    image: mongo:7-jammy
+    container_name: decidr_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: decidr
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - '27017:27017'
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', 'db.adminCommand("ping")']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── API Server ────────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: decidr_server
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/decidr
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production-please}
+      PORT: 5000
+      CLIENT_URL: http://localhost
+    ports:
+      - '5000:5000'
+
+  # ── React Client (Nginx) ──────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: decidr_client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - '80:80'
+
+volumes:
+  mongodata:
+    driver: local

@@ -20,7 +20,7 @@ app.options("*", cors());
 app.use(express.json());
 
 // ✅ ROUTES (IMPORTANT)
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 // test route
 app.get("/", (req, res) => {

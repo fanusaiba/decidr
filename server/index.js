@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/auth.js"; // adjust path
+import authRoutes from "./routes/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ CORS FIX
+// CORS
 app.use(
   cors({
     origin: "https://decidr-dusky.vercel.app",
@@ -14,12 +14,12 @@ app.use(
   })
 );
 
-// ✅ handle preflight
+// preflight
 app.options("*", cors());
 
 app.use(express.json());
 
-// ✅ ROUTES (IMPORTANT)
+// ROUTES
 app.use("/api/auth", authRoutes);
 
 // test route
@@ -27,19 +27,15 @@ app.get("/", (req, res) => {
   res.send("API working");
 });
 
-app.listen(5000, () => {
-  console.log("Server running");
-});
-
-// ── Error handler ─────────────────────────────────────────
+// error handler
 app.use((err, req, res, next) => {
-  console.error('🔥 Error:', err.message);
+  console.error("🔥 Error:", err.message);
   res.status(err.status || 500).json({
-    error: err.message || 'Internal server error'
+    error: err.message || "Internal server error",
   });
 });
 
-// ── Start server ──────────────────────────────────────────
-app.listen(PORT,'0.0.0.0', () => {
+// ✅ ONLY ONE SERVER START
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Decidr server running on port ${PORT}`);
 });

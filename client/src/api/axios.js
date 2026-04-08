@@ -1,28 +1,20 @@
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
-  headers: { 'Content-Type': 'application/json' },
-})
+  baseURL: "https://decidr-uy0t.onrender.com", // ✅ your backend
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true, // optional but safe
+});
 
-// Attach JWT token to every request
+// attach token automatically
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('decidr_token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
-
-// On 401, clear token and redirect to login
-api.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('decidr_token')
-      localStorage.removeItem('decidr_user')
-      window.location.href = '/login'
-    }
-    return Promise.reject(err)
+  const token = localStorage.getItem("decidr_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-)
+  return config;
+});
 
-export default api
+export default api;

@@ -1,18 +1,12 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const {
-  register,
-  login,
-  getMe,
-  updateProfile,
-  changePassword,
-} = require('../controllers/authController');
-const { protect } = require('../middleware/auth');
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/me', protect, getMe);
-router.put('/profile', protect, updateProfile);
-router.put('/password', protect, changePassword);
+router.post("/login", (req, res) => {
+  res.json({ message: "Login working" });
+});
 
-module.exports = router;
+router.post("/register", (req, res) => {
+  res.json({ message: "Register working" });
+});
+
+export default router;

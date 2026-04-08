@@ -13,9 +13,11 @@ const PORT = process.env.PORT || 5000;
 
 // ── Middleware ────────────────────────────────────────────
 app.use(cors({
-  origin: "http://decidr-dusky.vercel.app",
-  credentials: true,
+  origin: ['https://decidr-dusky.vercel.app'], // your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
+
 app.use(express.json());
 
 // ── MongoDB connection ────────────────────────────────────

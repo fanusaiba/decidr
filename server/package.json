@@ -1,6 +1,7 @@
 {
   "name": "decidr-server",
   "version": "1.0.0",
+  "type": "module",
   "description": "Decidr API Server — MongoDB edition",
   "main": "index.js",
   "scripts": {

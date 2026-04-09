@@ -8,4 +8,4 @@ router.use(protect);
 router.get('/summary', getSummary);
 router.get('/timeline/:decisionId', getTimeline);
 
-module.exports = router;
+export default router;

@@ -1,12 +1,13 @@
-const express = require('express');
-const router  = express.Router();
-const { getCheckins, createCheckin, deleteCheckin } = require('../controllers/checkinController');
-const { protect } = require('../middleware/auth');
+import express from "express";
+const router = express.Router();
+
+import { getCheckins, createCheckin, deleteCheckin } from "../controllers/checkinController.js";
+import { protect } from "../middleware/auth.js";
 
 router.use(protect);
 
-router.get('/:decisionId',                    getCheckins);
-router.post('/:decisionId',                   createCheckin);
-router.delete('/:decisionId/:checkinId',      deleteCheckin);
+router.get("/:decisionId", getCheckins);
+router.post("/:decisionId", createCheckin);
+router.delete("/:decisionId/:checkinId", deleteCheckin);
 
-module.exports = router;
+export default router;

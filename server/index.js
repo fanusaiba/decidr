@@ -5,6 +5,9 @@ import decisionRoutes from "./routes/decisions.js";
 import checkinRoutes from "./routes/checkins.js";
 import analyticsRoutes from "./routes/analytics.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -43,7 +46,7 @@ app.use((err, req, res, next) => {
 });
 
 // start server
-
+console.log("MONGO_URI:", process.env.MONGO_URI);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

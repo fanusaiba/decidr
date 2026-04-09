@@ -11,12 +11,12 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('decidr_token')
+    const token = localStorage.getItem('token')
     if (token) {
       authAPI.me()
         .then((res) => setUser(res.data))
         .catch(() => {
-          localStorage.removeItem('decidr_token')
+          localStorage.removeItem('token')
           localStorage.removeItem('decidr_user')
           setUser(null)
         })
@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await authAPI.login({ email, password })
     const { token, ...userData } = res.data
-    localStorage.setItem('decidr_token', token)
+    localStorage.setItem('token', token)
     localStorage.setItem('decidr_user', JSON.stringify(userData))
     setUser(userData)
     return userData
@@ -38,14 +38,14 @@ export function AuthProvider({ children }) {
   const register = async (name, email, password) => {
     const res = await authAPI.register({ name, email, password })
     const { token, ...userData } = res.data
-    localStorage.setItem('decidr_token', token)
+    localStorage.setItem('token', token)
     localStorage.setItem('decidr_user', JSON.stringify(userData))
     setUser(userData)
     return userData
   }
 
   const logout = () => {
-    localStorage.removeItem('decidr_token')
+    localStorage.removeItem('token')
     localStorage.removeItem('decidr_user')
     setUser(null)
   }

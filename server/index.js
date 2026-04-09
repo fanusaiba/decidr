@@ -12,8 +12,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "https://decidr-dusky.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+     credentials: true,
   })
 );
 
